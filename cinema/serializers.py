@@ -81,8 +81,14 @@ class MovieSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(max_length=255)
     description = serializers.CharField()
-    actors = serializers.ListField(child=serializers.IntegerField())
-    genres = serializers.ListField(child=serializers.IntegerField())
+    actors = serializers.PrimaryKeyRelatedField(
+        queryset=Actor.objects.all(),
+        many=True
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        queryset=Genre.objects.all(),
+        many=True
+    )
     duration = serializers.IntegerField()
 
     def create(self, validated_data):
